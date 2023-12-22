@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.gson.JsonObject
@@ -14,6 +16,7 @@ import com.smilesifat.kotlinboilerplate.model.ListModel
 import com.smilesifat.kotlinboilerplate.repository.ListingRepository
 import com.smilesifat.kotlinboilerplate.services.MyAPIServices
 import com.smilesifat.kotlinboilerplate.services.RetrofitClientInstance
+import com.smilesifat.kotlinboilerplate.viewmodel.ListViewModel
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -46,33 +49,33 @@ class MainActivity : BaseActivity() {
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         shimmerFrameLayout = findViewById<ShimmerFrameLayout>(R.id.shimmerLayout)
 
-        getListings1()
+//        getListings1()
 //        shimmerFrameLayout.setVisibility(View.VISIBLE)
 //        shimmerFrameLayout.startShimmer()
 //        recyclerView.setVisibility(View.GONE)
-//        listingRepository = ListingRepository()
-//        listingRepository.listings()
-//        getListings()
+        listingRepository = ListingRepository()
+        listingRepository!!.listings
+        getListings()
     }
 
-//    private fun getListings() {
-//        shimmerFrameLayout!!.stopShimmer()
-//        shimmerFrameLayout!!.visibility = View.GONE
-//        recyclerView!!.visibility = View.VISIBLE
-//        val listViewModel: ListViewModel = ViewModelProvider(this)[ListViewModel::class.java]
-//        listViewModel.posts.observe(this, object : Observer<ArrayList<ListModel?>?> {
-//            fun onChanged(receivedDataList: ArrayList<ListModel?>) {
-//                if (receivedDataList.isEmpty()) {
-//                    ShowAlert("No Data Found")
-//                } else {
-//                    recyclerView!!.layoutManager = LinearLayoutManager(applicationContext)
-//                    customRecyclerViewAdapter =
-//                        CustomRecyclerViewAdapter(applicationContext, receivedDataList)
-//                    recyclerView!!.adapter = customRecyclerViewAdapter
-//                }
-//            }
-//        })
-//    }
+    private fun getListings() {
+        shimmerFrameLayout!!.stopShimmer()
+        shimmerFrameLayout!!.visibility = View.GONE
+        recyclerView!!.visibility = View.VISIBLE
+        val listViewModel: ListViewModel = ViewModelProvider(this)[ListViewModel::class.java]
+        listViewModel.posts.observe(
+            this
+        ) { receivedDataList ->
+            if (receivedDataList.isEmpty()) {
+                ShowAlert("No Data Found")
+            } else {
+                recyclerView!!.layoutManager = LinearLayoutManager(applicationContext)
+                customRecyclerViewAdapter =
+                    CustomRecyclerViewAdapter(applicationContext, receivedDataList)
+                recyclerView!!.adapter = customRecyclerViewAdapter
+            }
+        }
+    }
 
     fun getListings1() {
         shimmerFrameLayout!!.visibility = View.VISIBLE
@@ -126,7 +129,7 @@ class MainActivity : BaseActivity() {
                 val created_at = jsonObject.getString("created_at")
                 val language = jsonObject.getString("language")
                 val owner = jsonObject.getJSONObject("owner")
-                val avatar=owner.getString("avatar_url")
+                val avatar = owner.getString("avatar_url")
                 listModel.add(
                     ListModel(
                         ID,

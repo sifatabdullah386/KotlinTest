@@ -7,13 +7,13 @@ import com.smilesifat.kotlinboilerplate.repository.ListingRepository
 
 
 class ListViewModel : ViewModel() {
-//    private val listings: LiveData<ArrayList<ListModel>>
-//
-//    init {
-//        val repository = ListingRepository()
-//        listings = repository.getListings()
-//    }
-//
-//    val posts: LiveData<ArrayList<Any>>
-//        get() = listings
+    private val listings: LiveData<ArrayList<ListModel>>
+
+    init {
+        val repository = ListingRepository()
+        listings = repository.listings
+    }
+
+    val posts: LiveData<ArrayList<ListModel>>
+        get() = listings
 }

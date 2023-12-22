@@ -14,14 +14,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("NAME_SHADOWING")
 class ListingRepository {
-    private val apiService: MyAPIServices = RetrofitClientInstance.retrofitInstance?.create(MyAPIServices::class.java)!!
+    private val apiService: MyAPIServices =
+        RetrofitClientInstance.retrofitInstance?.create(MyAPIServices::class.java)!!
     var listModels = ArrayList<ListModel>()
 
     val listings: LiveData<ArrayList<ListModel>>
         get() {
             val data = MutableLiveData<ArrayList<ListModel>>()
-            val call: Call<JsonObject>? = apiService.getListings("android","stars")
+            val call: Call<JsonObject>? = apiService.getListings("android", "stars")
             call?.enqueue(object : Callback<JsonObject?> {
                 override fun onResponse(call: Call<JsonObject?>, response: Response<JsonObject?>) {
                     if (response.isSuccessful) {
@@ -31,6 +33,39 @@ class ListingRepository {
                             try {
                                 convertJSON = JSONObject(jsonObject.toString())
                                 Log.d("JSONObject Responded", convertJSON.toString())
+                                var jsonArray: JSONArray? = null
+                                jsonArray = convertJSON.optJSONArray("items")
+
+                                listModels.clear()
+
+                                for (i in 0 until jsonArray!!.length()) {
+                                    val jsonObject = jsonArray.optJSONObject(i)
+                                    try {
+                                        val ID = jsonObject.getInt("id")
+                                        val name = jsonObject.getString("name")
+                                        val full_name = jsonObject.getString("full_name")
+                                        val description = jsonObject.getString("description")
+                                        val url = jsonObject.getString("url")
+                                        val created_at = jsonObject.getString("created_at")
+                                        val language = jsonObject.getString("language")
+                                        val owner = jsonObject.getJSONObject("owner")
+                                        val avatar = owner.getString("avatar_url")
+                                        listModels.add(
+                                            ListModel(
+                                                ID,
+                                                name,
+                                                full_name,
+                                                description,
+                                                url,
+                                                created_at,
+                                                language,
+                                                avatar,
+                                            )
+                                        )
+                                    } catch (e: JSONException) {
+                                        throw RuntimeException(e)
+                                    }
+                                }
                             } catch (e: JSONException) {
                                 throw RuntimeException(e)
                             }

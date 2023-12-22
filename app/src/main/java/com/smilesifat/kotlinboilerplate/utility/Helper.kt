@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Objects
 
+@Suppress("NAME_SHADOWING")
 open class Helper {
     companion object {
         fun DateFormat(selectedDate: String?): String? {
@@ -16,7 +17,7 @@ open class Helper {
             @SuppressLint("SimpleDateFormat") val outputFormat = SimpleDateFormat(outputPattern)
             var date: Date? = null
             try {
-                date = inputFormat.parse(selectedDate)
+                date = inputFormat.parse(selectedDate!!)
                 selectedDate = outputFormat.format(Objects.requireNonNull(date))
             } catch (e: ParseException) {
                 e.printStackTrace()
