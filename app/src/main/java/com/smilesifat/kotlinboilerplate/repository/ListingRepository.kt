@@ -7,17 +7,21 @@ import com.google.gson.JsonObject
 import com.smilesifat.kotlinboilerplate.model.ListModel
 import com.smilesifat.kotlinboilerplate.services.MyAPIServices
 import com.smilesifat.kotlinboilerplate.services.RetrofitClientInstance
+import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
+@AndroidEntryPoint
 @Suppress("NAME_SHADOWING")
 class ListingRepository {
-    private val apiService: MyAPIServices =
-        RetrofitClientInstance.retrofitInstance?.create(MyAPIServices::class.java)!!
+
+    @Inject
+    private val apiService: MyAPIServices = RetrofitClientInstance.retrofitInstance?.create(MyAPIServices::class.java)!!
     var listModels = ArrayList<ListModel>()
 
     val listings: LiveData<ArrayList<ListModel>>

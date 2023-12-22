@@ -17,13 +17,4 @@ interface MyAPIServices {
         @Query("q") p: String?,
         @Query("sort") sort: String?
     ): Call<JsonObject>?
-
-
-    @FormUrlEncoded
-    @POST("getlistingdetails")
-    fun getListingDetails(
-        @Header("Content-Type") ContentType: String?,
-        @FieldMap data: HashMap<String?, String?>?
-    ): Call<ResponseBody?>?
-
 }
