@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">KotlinBoilerplate</string>
+    <string name="check_your_internet_connection_and_try_again">Check Your Internet Connection &amp; Try Again></string>
+    <string name="try_again">Try Again</string>
+    <string name="ok">OK</string>
+    <string name="please_wait">Please Wail …</string>
+    <string name="related_listing">Related Listings</string>
+    <string name="description">Description</string>
+</resources>
