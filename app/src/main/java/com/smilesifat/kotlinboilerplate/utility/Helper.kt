@@ -10,8 +10,8 @@ open class Helper {
     companion object {
         fun DateFormat(selectedDate: String?): String? {
             var selectedDate = selectedDate
-            val inputPattern = "yyyy-MM-dd"
-            val outputPattern = "dd MMM yy"
+            val inputPattern = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+            val outputPattern = "d, MMM yy HH:mm a"
             @SuppressLint("SimpleDateFormat") val inputFormat = SimpleDateFormat(inputPattern)
             @SuppressLint("SimpleDateFormat") val outputFormat = SimpleDateFormat(outputPattern)
             var date: Date? = null

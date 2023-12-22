@@ -2,11 +2,13 @@ package com.smilesifat.kotlinboilerplate.view.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.smilesifat.kotlinboilerplate.R
+import com.smilesifat.kotlinboilerplate.utility.Helper
 
 class ListDetailsActivity : AppCompatActivity() {
 
@@ -19,10 +21,9 @@ class ListDetailsActivity : AppCompatActivity() {
     var created_at: String? = null
     var language: String? = null
 
-
-
     var imageView: ImageView? = null
-    var nameView: TextView?=null
+    var backView: ImageView? = null
+    var nameView: TextView? = null
     var full_nameView: TextView? = null
     var descriptionView: TextView? = null
     var urlView: TextView? = null
@@ -34,7 +35,6 @@ class ListDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_details_view)
 
-
         id = intent.getStringExtra("id")
         name = intent.getStringExtra("name")
         full_name = intent.getStringExtra("full_name")
@@ -44,6 +44,7 @@ class ListDetailsActivity : AppCompatActivity() {
         created_at = intent.getStringExtra("created_at")
 
         imageView = findViewById<ImageView>(R.id.ad_image)
+        backView = findViewById<ImageView>(R.id.iv_back)
         nameView = findViewById<TextView>(R.id.name)
         nameView?.text = name
 
@@ -55,7 +56,7 @@ class ListDetailsActivity : AppCompatActivity() {
         urlView?.text = url
 
         created_atView = findViewById<TextView>(R.id.created_at)
-        created_atView?.text = created_at
+        created_atView?.text = Helper.DateFormat(created_at)
 
         languageView = findViewById<TextView>(R.id.language)
         languageView?.text = language
@@ -67,6 +68,13 @@ class ListDetailsActivity : AppCompatActivity() {
                     .into(it)
             }
         }
+
+        backView?.let {
+            it.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+        }
+
 
     }
 }

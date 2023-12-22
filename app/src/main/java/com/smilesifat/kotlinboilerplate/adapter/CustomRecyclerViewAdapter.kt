@@ -55,8 +55,8 @@ class CustomRecyclerViewAdapter(private var context: Context, listModels: ArrayL
 
         holder.text1.setText(listModels[position].name)
         holder.text2.setText(listModels[position].full_name)
-        holder.text3.setText(Helper.DateFormat(listModels[position].description))
-        holder.text4.setText(Helper.DateFormat(listModels[position].language))
+        holder.text3.setText(listModels[position].description)
+        holder.text4.setText(listModels[position].language)
         holder.text5.setText(Helper.DateFormat(listModels[position].created_at))
     }
 
